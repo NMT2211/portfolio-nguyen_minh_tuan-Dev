@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nguyễn Minh Tuấn | Trang chủ</title>
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2721/2721292.png" />
-  <!-- Font Việt hóa mượt (hiển thị tốt mọi trình duyệt) -->
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -14,33 +13,89 @@
     }
 
     body {
-      background: linear-gradient(-45deg, #050507, #0b132b, #1c2541, #0a0a12);
-      background-size: 400% 400%;
-      animation: gradientShift 12s ease infinite;
+      background: radial-gradient(circle at top left, #0a0a12, #0b132b, #1c2541);
       color: white;
-      overflow: hidden;
       height: 100vh;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
+      position: relative;
     }
 
-    @keyframes gradientShift {
+    /* 🌈 Gradient chuyển động nền */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #00ffa3, #007bff, #00eaff, #1c2541);
+      background-size: 400% 400%;
+      z-index: -2;
+      opacity: 0.25;
+      animation: bgShift 15s ease infinite;
+      filter: blur(80px);
+    }
+
+    @keyframes bgShift {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
+    /* 💫 Floating ánh sáng */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,255,170,0.6), transparent 70%);
+      mix-blend-mode: screen;
+      animation: float 10s ease-in-out infinite alternate;
+      filter: blur(8px);
+    }
+
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-60px) translateX(40px); }
+    }
+
     h1 {
-      font-size: 3.5rem;
-      background: linear-gradient(90deg, #00eaff, #00ffa3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 30px #00eaff80;
-      animation: fadeInUp 2s ease forwards, pulse 2.5s ease-in-out infinite alternate;
-      opacity: 0;
+  font-size: 3.5rem;
+  background: linear-gradient(90deg, #00eaff, #00ffa3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 40px #00eaff88;
+  animation: fadeInUp 2s ease forwards, pulseText 3s ease-in-out infinite alternate;
+  opacity: 0;
+  position: relative;
+  overflow: visible; /* ✅ Cho ánh sáng tỏa ra ngoài */
+}
+
+/* ✨ Hiệu ứng quét sáng mềm, hoà với nền, không bị khung chữ nhật */
+h1::after {
+  content: "";
+  position: absolute;
+  top: -30%;  /* ✅ Cho quét sáng lan ra trên dưới */
+  left: -200%;
+  width: 200%;
+  height: 160%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255,255,255,0.25) 0%,
+    rgba(255,255,255,0.15) 30%,
+    rgba(255,255,255,0) 80%
+  );
+  mix-blend-mode: screen;
+  filter: blur(25px); /* ánh sáng mờ, lan đều */
+  animation: scan 6s linear infinite;
+  pointer-events: none;
+}
+
+
+
+    @keyframes scan { 
+      0% { left: -150%; }
+      100% { left: 150%; }
     }
 
     .subtitle {
@@ -51,25 +106,58 @@
       animation: fadeIn 2s 1s ease forwards;
     }
 
+    /* 💎 Nút phát sáng & nhịp đập */
     .btn {
-      background: linear-gradient(90deg, #007bff, #00d4ff);
-      color: white;
-      border: none;
-      padding: 14px 40px;
+      position: relative;
+      padding: 16px 48px;
       border-radius: 40px;
-      cursor: pointer;
+      border: none;
+      color: #fff;
+      font-size: 1.1rem;
       font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(90deg, #00ffa3, #00eaff, #007bff);
+      background-size: 300% 300%;
+      animation: gradientFlow 5s linear infinite, pulseBtn 2s ease-in-out infinite;
+      box-shadow: 0 0 25px #00ffa399, 0 0 50px #00eaff66;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      letter-spacing: 0.5px;
       text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 20px #00d4ff66;
-      animation: fadeIn 3s 1.3s ease forwards;
-      opacity: 0;
     }
 
     .btn:hover {
-      transform: scale(1.08) translateY(-3px);
-      box-shadow: 0 0 40px #00ffa388;
-      background: linear-gradient(90deg, #00ffa3, #00d4ff);
+      transform: scale(1.08);
+      box-shadow: 0 0 35px #00ffa3, 0 0 70px #00eaff;
+      animation-duration: 1.2s; /* nhanh hơn khi hover */
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0; left: -75%;
+      width: 50%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.7), transparent);
+      transform: skewX(-20deg);
+      animation: shine 4s linear infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -75%; }
+      50% { left: 125%; }
+      100% { left: 125%; }
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes pulseBtn {
+      0% { transform: scale(1); box-shadow: 0 0 25px #00ffa380, 0 0 60px #00eaff60; }
+      50% { transform: scale(1.05); box-shadow: 0 0 40px #00ffa3, 0 0 80px #00eaff; }
+      100% { transform: scale(1); box-shadow: 0 0 25px #00ffa380, 0 0 60px #00eaff60; }
     }
 
     @keyframes fadeIn {
@@ -82,7 +170,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes pulse {
+    @keyframes pulseText {
       0% { text-shadow: 0 0 20px #00eaff88; }
       100% { text-shadow: 0 0 40px #00ffa3; }
     }
@@ -90,9 +178,14 @@
     canvas {
       position: absolute;
       top: 0; left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       z-index: -1;
+    }
+
+    ::-webkit-scrollbar { height: 6px; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, #00eaff, #00ffa3);
+      border-radius: 4px;
     }
 
     @media (max-width: 600px) {
@@ -106,29 +199,33 @@
 <body>
   <canvas id="particles"></canvas>
 
+  <!-- ánh sáng lơ lửng -->
+  <div class="orb" style="width:100px;height:100px;top:20%;left:10%;animation-delay:0s;"></div>
+  <div class="orb" style="width:80px;height:80px;bottom:15%;right:15%;animation-delay:3s;"></div>
+  <div class="orb" style="width:60px;height:60px;top:60%;left:40%;animation-delay:6s;"></div>
+
+  <!-- nội dung -->
   <h1 id="typewriter"></h1>
   <div class="subtitle">Fresher Fullstack Developer · Đam mê Công nghệ & AI</div>
   <a href="/portfolio-nguyen_minh_tuan-Dev/" class="btn">🚀 Xem Portfolio</a>
 
   <script>
-    // ✨ Hiệu ứng đánh máy (Typewriter)
+    // ✍️ Hiệu ứng đánh máy
     const text = "Nguyễn Minh Tuấn";
-    const speed = 100;
-    let index = 0;
+    let i = 0;
     function typeWriter() {
-      if (index < text.length) {
-        document.getElementById("typewriter").innerHTML += text.charAt(index);
-        index++;
-        setTimeout(typeWriter, speed);
+      if (i < text.length) {
+        document.getElementById("typewriter").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 120);
       }
     }
     setTimeout(typeWriter, 300);
 
-    // 🌌 Hiệu ứng Particles
+    // 🌌 Hạt Particles + kết nối
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
+    canvas.width = innerWidth; canvas.height = innerHeight;
 
     const colors = ["#00eaff", "#00ffa3", "#007bff"];
     let particles = [];
@@ -138,36 +235,54 @@
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 2 + 0.5;
-        this.speedX = Math.random() * 0.6 - 0.3;
-        this.speedY = Math.random() * 0.6 - 0.3;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.5 - 0.25;
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
       }
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fillStyle = this.color;
         ctx.shadowColor = this.color;
-        ctx.shadowBlur = 15;
+        ctx.shadowBlur = 10;
         ctx.fill();
       }
     }
 
     function init() {
       particles = [];
-      for (let i = 0; i < 100; i++) {
-        particles.push(new Particle());
+      for (let i = 0; i < 120; i++) particles.push(new Particle());
+    }
+
+    function connect() {
+      for (let a = 0; a < particles.length; a++) {
+        for (let b = a; b < particles.length; b++) {
+          const dx = particles[a].x - particles[b].x;
+          const dy = particles[a].y - particles[b].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(0,255,180,${1 - dist / 100})`;
+            ctx.lineWidth = 0.3;
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.stroke();
+            ctx.closePath();
+          }
+        }
       }
     }
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => { p.update(); p.draw(); });
+      connect();
       requestAnimationFrame(animate);
     }
 
