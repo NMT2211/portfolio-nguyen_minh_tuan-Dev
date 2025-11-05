@@ -5,11 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nguyễn Minh Tuấn | Trang chủ</title>
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2721/2721292.png" />
+  <!-- Font Việt hóa mượt (hiển thị tốt mọi trình duyệt) -->
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Be Vietnam Pro', sans-serif;
+    }
+
     body {
-      background: radial-gradient(circle at top, #0a0a12, #050507);
+      background: linear-gradient(-45deg, #050507, #0b132b, #1c2541, #0a0a12);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
       color: white;
       overflow: hidden;
       height: 100vh;
@@ -17,38 +24,69 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-    }
-    h1 {
-      font-size: 3rem;
       text-align: center;
-      text-shadow: 0 0 20px #00eaff;
-      animation: glow 2s infinite alternate;
     }
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #00eaff, 0 0 20px #00eaff; }
-      to { text-shadow: 0 0 30px #00eaff, 0 0 60px #00eaff; }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
+
+    h1 {
+      font-size: 3.5rem;
+      background: linear-gradient(90deg, #00eaff, #00ffa3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px #00eaff80;
+      animation: fadeInUp 2s ease forwards, pulse 2.5s ease-in-out infinite alternate;
+      opacity: 0;
+    }
+
     .subtitle {
       font-size: 1.2rem;
       color: #a3bffa;
-      margin: 10px 0 30px;
-      text-align: center;
+      margin: 15px 0 40px;
+      opacity: 0;
+      animation: fadeIn 2s 1s ease forwards;
     }
+
     .btn {
       background: linear-gradient(90deg, #007bff, #00d4ff);
       color: white;
       border: none;
-      padding: 14px 36px;
-      border-radius: 30px;
+      padding: 14px 40px;
+      border-radius: 40px;
       cursor: pointer;
       font-weight: 600;
       text-decoration: none;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px #00d4ff66;
+      animation: fadeIn 3s 1.3s ease forwards;
+      opacity: 0;
     }
+
     .btn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 0 25px #00d4ff;
+      transform: scale(1.08) translateY(-3px);
+      box-shadow: 0 0 40px #00ffa388;
+      background: linear-gradient(90deg, #00ffa3, #00d4ff);
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { text-shadow: 0 0 20px #00eaff88; }
+      100% { text-shadow: 0 0 40px #00ffa3; }
+    }
+
     canvas {
       position: absolute;
       top: 0; left: 0;
@@ -56,43 +94,50 @@
       height: 100%;
       z-index: -1;
     }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2.4rem; }
+      .subtitle { font-size: 1rem; }
+      .btn { padding: 12px 28px; font-size: 0.95rem; }
+    }
   </style>
 </head>
+
 <body>
   <canvas id="particles"></canvas>
 
   <h1 id="typewriter"></h1>
   <div class="subtitle">Fresher Fullstack Developer · Đam mê Công nghệ & AI</div>
-  <a href="/portfolio-nguyen_minh_tuan-Dev/" class="btn">👉 Xem Portfolio</a>
+  <a href="/portfolio-nguyen_minh_tuan-Dev/" class="btn">🚀 Xem Portfolio</a>
 
   <script>
-    // Typewriter Effect
+    // ✨ Hiệu ứng đánh máy (Typewriter)
     const text = "Nguyễn Minh Tuấn";
-    const speed = 120;
-    let i = 0;
+    const speed = 100;
+    let index = 0;
     function typeWriter() {
-      if (i < text.length) {
-        document.getElementById("typewriter").innerHTML += text.charAt(i);
-        i++;
+      if (index < text.length) {
+        document.getElementById("typewriter").innerHTML += text.charAt(index);
+        index++;
         setTimeout(typeWriter, speed);
       }
     }
-    typeWriter();
+    setTimeout(typeWriter, 300);
 
-    // Particles Background
+    // 🌌 Hiệu ứng Particles
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
     canvas.width = innerWidth;
     canvas.height = innerHeight;
 
-    let particlesArray = [];
-    const colors = ["#00eaff", "#00aaff", "#007bff"];
+    const colors = ["#00eaff", "#00ffa3", "#007bff"];
+    let particles = [];
 
     class Particle {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
+        this.size = Math.random() * 2 + 0.5;
         this.speedX = Math.random() * 0.6 - 0.3;
         this.speedY = Math.random() * 0.6 - 0.3;
         this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -107,28 +152,33 @@
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fillStyle = this.color;
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 15;
         ctx.fill();
       }
     }
 
     function init() {
-      particlesArray = [];
+      particles = [];
       for (let i = 0; i < 100; i++) {
-        particlesArray.push(new Particle());
+        particles.push(new Particle());
       }
     }
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particlesArray.forEach(p => {
-        p.update();
-        p.draw();
-      });
+      particles.forEach(p => { p.update(); p.draw(); });
       requestAnimationFrame(animate);
     }
 
     init();
     animate();
+
+    window.addEventListener("resize", () => {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+      init();
+    });
   </script>
 </body>
 </html>
