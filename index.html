@@ -269,15 +269,16 @@
       pointer-events: none;
     }
 
-    .typing-role {
-      font-size: 1rem;
-      color: #9caefc;
-      min-height: 1.5em;
-      margin-bottom: 16px;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid rgba(148,163,255,0.9);
-    }
+.typing-role {
+  font-size: 1rem;
+  color: #9caefc;
+  min-height: 1.5em;
+  margin-bottom: 16px;
+  white-space: normal;   /* ✅ Cho phép xuống dòng */
+  overflow: visible;     /* ✅ Không cắt bớt text */
+  border-right: 2px solid rgba(148,163,255,0.9);
+}
+
 
     .subtitle {
         margin-bottom: 100px;
